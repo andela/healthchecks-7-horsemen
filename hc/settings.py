@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 import os
 import warnings
+import dj_database_url
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -90,15 +91,9 @@ DATABASES = {
 # Setting so as to use postgres on heroku
 # You have to setup "ONHEROKU" = "TRUE" on heroku app environment variables.
 if os.environ.get("ONHEROKU") == "TRUE":
-    DATABASES = {
-        'default': {
-            'ENGINE':   os.environ.get("DB_ENGINE"),
-            'NAME':     os.environ.get("DB_NAME"),
-            'USER':     os.environ.get("DB_USER"),
-            'PASSWORD': os.environ.get("DB_PASSWORD"),
-            'TEST': {'CHARSET': 'UTF8'}
-        }
-    }
+    DB_FROM_ENV = dj_database_url.config()
+    DATABASES['default'].update(DB_FROM_ENV)
+
 # You can switch database engine to postgres or mysql using environment
 # variable 'DB'. Travis CI does this.
 if os.environ.get("DB") == "postgres":
