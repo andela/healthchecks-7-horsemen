@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/andela/healthchecks-7-horsemen.svg?branch=develop)](https://travis-ci.org/andela/healthchecks-7-horsemen)
+[![Coverage Status](https://coveralls.io/repos/github/andela/healthchecks-7-horsemen/badge.svg?t=1RJgUF)](https://coveralls.io/github/andela/healthchecks-7-horsemen)
+
+
 # healthchecks
 
 ![Screenshot of Welcome page](/stuff/screenshots/welcome.png?raw=true "Welcome Page")
