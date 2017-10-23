@@ -1,1 +1,1 @@
-web: gunicorn hc.wsgi 
+web: gunicorn --config=hc/gunicorn_config.py hc.wsgi 
