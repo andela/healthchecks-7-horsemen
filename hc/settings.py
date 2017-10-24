@@ -22,7 +22,6 @@ DEBUG = True
 ALLOWED_HOSTS = []
 DEFAULT_FROM_EMAIL = 'healthchecks@example.org'
 USE_PAYMENTS = False
-SECURE_SSL_REDIRECT = True
 
 
 INSTALLED_APPS = (
@@ -95,6 +94,7 @@ if os.environ.get("ONHEROKU") == "TRUE":
     DB_FROM_ENV = dj_database_url.config()
     DATABASES['default'].update(DB_FROM_ENV)
     STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+    SECURE_SSL_REDIRECT = True
 
 # You can switch database engine to postgres or mysql using environment
 # variable 'DB'. Travis CI does this.
