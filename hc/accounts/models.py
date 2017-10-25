@@ -20,6 +20,8 @@ class Profile(models.Model):
     team_access_allowed = models.BooleanField(default=False)
     next_report_date = models.DateTimeField(null=True, blank=True)
     reports_allowed = models.BooleanField(default=True)
+    # Additional field for user defined time of reports
+    report_time = models.IntegerField(default=30)
     ping_log_limit = models.IntegerField(default=100)
     token = models.CharField(max_length=128, blank=True)
     api_key = models.CharField(max_length=128, blank=True)
@@ -56,17 +58,28 @@ class Profile(models.Model):
     def send_report(self):
         # reset next report date first:
         now = timezone.now()
-        self.next_report_date = now + timedelta(days=30)
+        # Set the period to a string according to the value of report time
+        if self.report_time == 1:
+            period = 'Daily'
+        elif self.report_time == 7:
+            period = 'Weekly'
+        elif self.report_time == 30:
+            period = 'Monthly'
+
+        # Set the next report time to the user defined time
+        self.next_report_date = now + timedelta(days=self.report_time)
         self.save()
 
         token = signing.Signer().sign(uuid.uuid4())
         path = reverse("hc-unsubscribe-reports", args=[self.user.username])
         unsub_link = "%s%s?token=%s" % (settings.SITE_ROOT, path, token)
 
+        # Pass the period to the email body
         ctx = {
             "checks": self.user.check_set.order_by("created"),
             "now": now,
-            "unsub_link": unsub_link
+            "unsub_link": unsub_link,
+            "next_report_date": period
         }
 
         emails.report(self.user.email, ctx)
