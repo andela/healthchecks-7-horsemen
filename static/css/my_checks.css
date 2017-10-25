@@ -31,13 +31,16 @@
   background: #22bc66;
 }
 
-#grace-slider {
+#grace-slider, #nag-slider{
     margin: 20px 50px 110px 50px;
 }
 
-#grace-slider.noUi-connect {
+#grace-slider.noUi-connect{
   background: #f0ad4e;
 }
+#nag-slider.noUi-connect{
+    background: #ff0000;
+  }
 
 #period-slider .noUi-value, #grace-slider .noUi-value {
     width: 60px;
