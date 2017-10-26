@@ -67,7 +67,7 @@ class Profile(models.Model):
             period = 'Monthly'
 
         # Set the next report time to the user defined time
-        self.next_report_date = now + timedelta(days=self.report_time)
+        self.next_report_date = now + timedelta(seconds=self.report_time)
         self.save()
 
         token = signing.Signer().sign(uuid.uuid4())
