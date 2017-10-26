@@ -25,7 +25,22 @@
                 <form method="post">
                     {% csrf_token %}
                     <h2>Periodic Reports</h2>
-                    {{ form.as_p }}
+                    <label>
+                        <input
+                            name="reports_allowed"
+                            type="checkbox"
+                            >
+                        Each month send me a summary of my checks
+                    </label>
+                    <div>
+                        <label ><input  id="report_time" name="report_time" type="radio" value="30" /> Monthly</label>
+                    </div>
+                    <div>
+                        <label ><input  id="report_time" name="report_time" type="radio" value="7" /> Weekly</label>
+                    </div>
+                    <div>
+                        <label ><input  id="report_time" name="report_time" type="radio" value="1" /> Daily</label>
+                    </div>
                     <button
                         name="update_reports_allowed"
                         type="submit"
