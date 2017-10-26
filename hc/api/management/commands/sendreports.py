@@ -29,15 +29,15 @@ class Command(BaseCommand):
 
     def handle_one_run(self):
         now = timezone.now()
-        # Set it to one day to allow those who have been active for more than a day
-        day_before = now - timedelta(days=1)
+        # Set it to one second to allow those who have been active for more than a second
+        second_before = now - timedelta(seconds=1)
 
         report_due = Q(next_report_date__lt=now)
         report_not_scheduled = Q(next_report_date__isnull=True)
 
         q = Profile.objects.filter(report_due | report_not_scheduled)
         q = q.filter(reports_allowed=True)
-        q = q.filter(user__date_joined__lt=day_before)
+        q = q.filter(user__date_joined__lt=second_before)
         sent = 0
         for profile in q:
             if num_pinged_checks(profile) > 0:
