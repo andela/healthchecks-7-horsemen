@@ -139,8 +139,6 @@ def profile(request):
         profile.save()
 
     show_api_key = False
-    # Append the check box and boolean to the route 
-    form = ReportSettingsForm()
     if request.method == "POST":
         if "set_password" in request.POST:
             profile.send_set_password_link()
@@ -165,7 +163,6 @@ def profile(request):
                 profile.reports_allowed = False
                 profile.report_time = 0
                 profile.save()
-
             messages.success(request, "Your settings have been updated!")
         elif "invite_team_member" in request.POST:
             if not profile.team_access_allowed:
@@ -221,8 +218,7 @@ def profile(request):
         "page": "profile",
         "badge_urls": badge_urls,
         "profile": profile,
-        "show_api_key": show_api_key,
-        "form": form
+        "show_api_key": show_api_key
     }
 
     return render(request, "accounts/profile.html", ctx)
