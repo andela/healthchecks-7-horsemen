@@ -142,8 +142,8 @@ EMAIL_HOST = os.environ.get("EMAIL_HOST")
 EMAIL_PORT = os.environ.get("EMAIL_PORT")
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
+EMAIL_USE_TLS = os.environ.get("TLS_ENABLE")
+EMAIL_USE_SSL = os.environ.get("SSL_ENABLE")
 
 # Slack integration -- override these in local_settings
 SLACK_CLIENT_ID = None
