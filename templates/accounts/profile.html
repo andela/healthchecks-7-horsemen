@@ -30,16 +30,18 @@
                             name="reports_allowed"
                             type="checkbox"
                             >
-                        Each month send me a summary of my checks
+                        Send periodic summary of my checks
                     </label>
-                    <div>
-                        <label ><input  id="report_time" name="report_time" type="radio" value="30" /> Monthly</label>
-                    </div>
-                    <div>
-                        <label ><input  id="report_time" name="report_time" type="radio" value="7" /> Weekly</label>
-                    </div>
-                    <div>
-                        <label ><input  id="report_time" name="report_time" type="radio" value="1" /> Daily</label>
+                    <div class="radio">
+                        <div>
+                            <label ><input  name="report_time" type="radio" value="30"/> Monthly</label>
+                        </div>
+                        <div>
+                            <label ><input  name="report_time" type="radio" value="7" /> Weekly</label>
+                        </div>
+                        <div>
+                            <label ><input  name="report_time" type="radio" value="1" /> Daily</label>
+                        </div>
                     </div>
                     <button
                         name="update_reports_allowed"
@@ -332,5 +334,6 @@
 <script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 <script src="{% static 'js/profile.js' %}"></script>
+
 {% endcompress %}
 {% endblock %}
