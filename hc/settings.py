@@ -20,7 +20,7 @@ HOST = "localhost"
 SECRET_KEY = "---"
 DEBUG = True
 ALLOWED_HOSTS = []
-DEFAULT_FROM_EMAIL = 'healthchecks@example.org'
+DEFAULT_FROM_EMAIL = 'i.asiimwe@kisu.com'
 USE_PAYMENTS = False
 
 INSTALLED_APPS = ('django.contrib.admin', 'django.contrib.auth',
