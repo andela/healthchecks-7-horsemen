@@ -22,23 +22,11 @@ ALLOWED_HOSTS = []
 DEFAULT_FROM_EMAIL = 'healthchecks@example.org'
 USE_PAYMENTS = False
 
-
-INSTALLED_APPS = (
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.humanize',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'compressor',
-    'djmail',
-
-    'hc.accounts',
-    'hc.api',
-    'hc.front',
-    'hc.payments'
-)
+INSTALLED_APPS = ('django.contrib.admin', 'django.contrib.auth',
+                  'django.contrib.contenttypes', 'django.contrib.humanize',
+                  'django.contrib.sessions', 'django.contrib.messages',
+                  'django.contrib.staticfiles', 'compressor', 'djmail',
+                  'hc.accounts', 'hc.api', 'hc.front', 'hc.payments')
 
 MIDDLEWARE = (
     'django.middleware.security.SecurityMiddleware',
@@ -51,10 +39,8 @@ MIDDLEWARE = (
     'hc.accounts.middleware.TeamAccessMiddleware',
 )
 
-AUTHENTICATION_BACKENDS = (
-    'hc.accounts.backends.EmailBackend',
-    'hc.accounts.backends.ProfileBackend'
-)
+AUTHENTICATION_BACKENDS = ('hc.accounts.backends.EmailBackend',
+                           'hc.accounts.backends.ProfileBackend')
 
 ROOT_URLCONF = 'hc.urls'
 
@@ -78,13 +64,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'hc.wsgi.application'
 TEST_RUNNER = 'hc.api.tests.CustomRunner'
 
-
 # Default database engine is SQLite. So one can just check out code,
 # install requirements.txt and do manage.py runserver and it works
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME':   './hc.sqlite',
+        'NAME': './hc.sqlite',
     }
 }
 
@@ -93,10 +78,12 @@ DATABASES = {
 if os.environ.get("DB") == "postgres":
     DATABASES = {
         'default': {
-            'ENGINE':   'django.db.backends.postgresql',
-            'NAME':     'hc',
-            'USER':     'postgres',
-            'TEST': {'CHARSET': 'UTF8'}
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv("DB_NAME"),
+            'USER': os.getenv("DB_USER"),
+            'TEST': {
+                'CHARSET': 'UTF8'
+            }
         }
     }
 
@@ -104,9 +91,11 @@ if os.environ.get("DB") == "mysql":
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'USER':     'root',
-            'NAME':     'hc',
-            'TEST': {'CHARSET': 'UTF8'}
+            'USER': 'root',
+            'NAME': 'hc',
+            'TEST': {
+                'CHARSET': 'UTF8'
+            }
         }
     }
 
