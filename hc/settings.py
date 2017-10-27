@@ -80,7 +80,7 @@ if os.environ.get("ONHEROKU") == "TRUE":
     DB_FROM_ENV = dj_database_url.config()
     DATABASES['default'].update(DB_FROM_ENV)
     STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-    SECURE_SSL_REDIRECT = True
+    #SECURE_SSL_REDIRECT = True
 
 # You can switch database engine to postgres or mysql using environment
 # variable 'DB'. Travis CI does this.
