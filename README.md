@@ -121,15 +121,16 @@ before emails will work. healthchecks uses
 [djmail](http://bameda.github.io/djmail/) for sending emails asynchronously.
 Djmail is a BSD Licensed, simple and nonobstructive django email middleware.
 It can be configured to use any regular Django email backend behind the
-scenes. For example, the healthchecks.io site uses
-[django-ses-backend](https://github.com/piotrbulinski/django-ses-backend/)
-and the email configuration in `hc/local_settings.py` looks as follows:
+scenes. For example, one can configure it to use the default django email backend by editing 'local_settings' as follows:
 
-    DJMAIL_REAL_BACKEND = 'django_ses_backend.SESBackend'
-    AWS_SES_ACCESS_KEY_ID = "put-access-key-here"
-    AWS_SES_SECRET_ACCESS_KEY = "put-secret-access-key-here"
-    AWS_SES_REGION_NAME = 'us-east-1'
-    AWS_SES_REGION_ENDPOINT = 'email.us-east-1.amazonaws.com'
+    EMAIL_BACKEND = "djmail.backends.default.EmailBackend"
+    DJMAIL_REAL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    EMAIL_HOST = "your-mail-server-address"
+    EMAIL_PORT = "email-outgoing-port"
+    EMAIL_HOST_USER = "your-email-address"
+    EMAIL_HOST_PASSWORD = "your-email-password"
+    EMAIL_USE_TLS = True
+    EMAIL_USE_SSL = False
 
 ## Sending Status Notifications
 
