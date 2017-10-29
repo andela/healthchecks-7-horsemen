@@ -138,16 +138,27 @@ $(function () {
             graceSlider.noUiSlider.set($this.data("grace"))
             nagSlider.noUiSlider.set($this.data("nag"))
             var status = $this.data("nag-status");
-            alert(status)
             if(status === 'True'){
-                alert('lol')
-                $('#myonoffswitch').attr("checked", "checked")
+                $(".hide-me").show();
+                $('#update-timeout-nag-status').attr("checked", "checked")
             }
             else{
-                alert(false)
-                $('#myonoffswitch').attr("checked", false)
+                $(".hide-me").hide();
+                $('#update-timeout-nag-status').attr("checked", false)
             }
             $('#update-timeout-modal').modal({"show":true, "backdrop":"static"});
+            $('#update-timeout-nag-status').change(function() {
+                if ($(this).is(":checked")){
+                    // $("input[type=checkbox]").prop(":checked", true);
+                    $(".hide-me").show();
+                    $("#update-timeout-nag-status").attr('value',1);
+                }
+                else{
+                    // $("input[type=checkbox]").prop(":checked", false);
+                    $(".hide-me").hide();
+                    $("#update-timeout-nag-status").attr('value',0);
+                }
+                });
     
             return false;
         });
@@ -236,31 +247,5 @@ $(function () {
             var text = e.trigger.getAttribute("data-clipboard-text");
             prompt("Press Ctrl+C to select:", text)
         });
-    
-    
-        $(function () {
-            // if ($(this).data("nag-status")){
-            //     $(".hide-me").show();
-            // }
-            // else {
-            //     $(".hide-me").hide();
-            // }
-            // $(".hide-me").hide();
-            console.log($("#update-timeout-nag-status").attr('value'));
-            $('#myonoffswitch').change(function() {
-            if ($(this).is(":checked")){
-                // $("input[type=checkbox]").prop(":checked", true);
-                $(".hide-me").show();
-                $("#update-timeout-nag-status").attr('value',1);
-            }
-            else{
-                // $("input[type=checkbox]").prop(":checked", false);
-                $(".hide-me").hide();
-                $("#update-timeout-nag-status").attr('value',0);
-                console.log($("#update-timeout-nag-status").attr('value'));
-            }
-            })
-            
-          });
     
     });
