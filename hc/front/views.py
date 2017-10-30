@@ -161,14 +161,11 @@ def update_timeout(request, code):
         return HttpResponseForbidden()
 
     form = TimeoutForm(request.POST)
-    # import pdb
-    # pdb.set_trace()
     if form.is_valid():
         check.timeout = td(seconds=form.cleaned_data["timeout"])
         check.grace = td(seconds=form.cleaned_data["grace"])
         check.nag_interval = td(seconds=form.cleaned_data["nag"])
         check.nag_status_on = True if form.cleaned_data["nag_status_on"] in ("1","on") else False
-        # import pdb; pdb.set_trace()
         check.save()
 
     return redirect("hc-checks")
