@@ -4,7 +4,6 @@ from hc.test import BaseTestCase
 from hc.accounts.models import Member
 from hc.api.models import Check
 
-
 class ProfileTestCase(BaseTestCase):
 
     def test_it_sends_set_password_link(self):
@@ -24,10 +23,32 @@ class ProfileTestCase(BaseTestCase):
     def test_it_sends_report(self):
         check = Check(name="Test Check", user=self.alice)
         check.save()
-
         self.alice.profile.send_report()
 
         ###Assert that the email was sent and check email content
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn("Test Check", mail.outbox[0].body)
+
+    def test_it_sends_weekly_report(self):
+        check = Check(name="Test Check", user=self.alice)
+        check.save()
+        self.alice.profile.report_time = 7
+        self.alice.profile.reports_allowed = True
+        self.alice.profile.send_report()
+
+        ###Assert that weekly is in email body
+        self.assertIn("Weekly", mail.outbox[0].body)
+
+    def test_it_sends_daily_report(self):
+        check = Check(name="Test Check", user=self.alice)
+        check.save()
+        self.alice.profile.report_time = 1
+        self.alice.profile.reports_allowed = True
+        self.alice.profile.send_report()
+
+        ###Assert that daily is in email body
+        self.assertIn("Daily", mail.outbox[0].body)
+        
 
     def test_it_adds_team_member(self):
         self.client.login(username="alice@example.org", password="password")
