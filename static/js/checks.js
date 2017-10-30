@@ -141,13 +141,13 @@ $(function () {
             if(status == 'True'){
                 $('#update-timeout-nag-status').attr('value',1)
                 $(".hide-me").show();
-                $(':checkbox').each(function() { this.checked = true; });
+                $('#update-timeout-nag-status').each(function() { this.checked = true; });
             }
             else{
                 let status = false
                 $(".hide-me").hide();
                 $('#update-timeout-nag-status').attr('value', 0)
-                $(':checkbox').each(function() { this.checked = false; });
+                $('#update-timeout-nag-status').each(function() { this.checked = false; });
             }
             $('#update-timeout-modal').modal({"show":true, "backdrop":"static"});
             $('#update-timeout-nag-status').change(function() {
