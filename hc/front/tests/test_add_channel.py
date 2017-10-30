@@ -39,3 +39,12 @@ class AddChannelTestCase(BaseTestCase):
 
     ### Test that the team access works
     ### Test that bad kinds don't work
+    def test_bad_kinds_dont_work(self):
+        """ Bad kinds should not work. They should have an error """
+        self.client.login(username="alice@example.org", password="password")
+        # Bad kinds
+        kinds = ("whatsapp", "facebook", "twitter", "hangouts")
+        for bad_kind in kinds:
+            url = "/integrations/add_%s/" % bad_kind
+            response = self.client.get(url)
+            self.assertEquals(response.status_code, 404)
