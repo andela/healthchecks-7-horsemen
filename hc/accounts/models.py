@@ -63,7 +63,7 @@ class Profile(models.Model):
             period = 'Daily'
         elif self.report_time == 7:
             period = 'Weekly'
-        elif self.report_time == 30:
+        else:
             period = 'Monthly'
 
         # Set the next report time to the user defined time
