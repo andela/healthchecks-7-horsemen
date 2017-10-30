@@ -49,7 +49,7 @@ class Check(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     timeout = models.DurationField(default=DEFAULT_TIMEOUT)
     grace = models.DurationField(default=DEFAULT_GRACE)
-    nag_status_on = models.BooleanField(default=True)
+    nag_status_on = models.BooleanField(default=False)
     nag_interval = models.DurationField(default=DEFAULT_NAG_INTERVAL)
     next_nag = models.DateTimeField(null=True, blank=True)
     n_pings = models.IntegerField(default=0)
