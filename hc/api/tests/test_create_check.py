@@ -121,6 +121,6 @@ class CreateCheckTestCase(BaseTestCase):
             {
                 "api_key": "abc",
                 "name": 'Some name',
-                "timeout": 10000000000000
+                "timeout": 1000000000
             },
             expected_error="timeout is too large")
