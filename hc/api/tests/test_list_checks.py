@@ -53,7 +53,17 @@ class ListChecksTestCase(BaseTestCase):
         self.assertEqual(checks['Alice 2']['status'], 'up')
 
         ### last_ping, n_pings and pause_url
-        self.assertEqual(checks['Alice 1']['n_pings'], 1)
+        self.assertEqual(checks['Alice 1']['n_pings'], self.a1.n_pings)
+        self.assertEqual(checks['Alice 1']['pause_url'],
+                         self.a1.to_dict()['pause_url'])
+        self.assertEqual(checks['Alice 1']['last_ping'],
+                         self.a1.to_dict()['last_ping'])
+
+        self.assertEqual(checks['Alice 2']['n_pings'], self.a2.n_pings)
+        self.assertEqual(checks['Alice 2']['pause_url'],
+                         self.a2.to_dict()['pause_url'])
+        self.assertEqual(checks['Alice 2']['last_ping'],
+                         self.a2.to_dict()['last_ping'])
 
     def test_it_shows_only_users_checks(self):
         bobs_check = Check(user=self.bob, name="Bob 1")
