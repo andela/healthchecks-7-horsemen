@@ -45,7 +45,6 @@ class Command(BaseCommand):
         # it won't process this check again.
         check.status = check.get_status()
         if check.status is 'down' and check.nag_status_on == True:
-            print("I'm a nag")
             now = timezone.now()
             check.next_nag=now + check.nag_interval
         check.save()
