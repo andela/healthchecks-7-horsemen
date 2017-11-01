@@ -47,6 +47,11 @@ class ListChecksTestCase(BaseTestCase):
         self.assertEqual(checks["Alice 1"]["ping_url"], self.a1.url())
         self.assertEqual(checks['Alice 1']['status'], 'new')
 
+        self.assertEqual(checks['Alice 2']['timeout'], 86400)
+        self.assertEqual(checks['Alice 2']['grace'], 3600)
+        self.assertEqual(checks["Alice 2"]["ping_url"], self.a2.url())
+        self.assertEqual(checks['Alice 2']['status'], 'up')
+
         ### last_ping, n_pings and pause_url
         self.assertEqual(checks['Alice 1']['n_pings'], 1)
 
