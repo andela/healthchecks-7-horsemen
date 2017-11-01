@@ -48,6 +48,7 @@ class ListChecksTestCase(BaseTestCase):
         self.assertEqual(checks['Alice 1']['status'], 'new')
 
         ### last_ping, n_pings and pause_url
+        self.assertEqual(checks['Alice 1']['n_pings'], 1)
 
     def test_it_shows_only_users_checks(self):
         bobs_check = Check(user=self.bob, name="Bob 1")
