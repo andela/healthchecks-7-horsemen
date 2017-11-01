@@ -52,7 +52,7 @@ class ListChecksTestCase(BaseTestCase):
         self.assertEqual(checks["Alice 2"]["ping_url"], self.a2.url())
         self.assertEqual(checks['Alice 2']['status'], 'up')
 
-        ### last_ping, n_pings and pause_url
+        # last_ping, n_pings and pause_url
         self.assertEqual(checks['Alice 1']['n_pings'], self.a1.n_pings)
         self.assertEqual(checks['Alice 1']['pause_url'],
                          self.a1.to_dict()['pause_url'])
@@ -75,4 +75,9 @@ class ListChecksTestCase(BaseTestCase):
         for check in data["checks"]:
             self.assertNotEqual(check["name"], "Bob 1")
 
-    ### Test that it accepts an api_key in the request
+    # Test that it accepts an api_key in the request
+    def test_that_it_accepts_api_key_with_the_request(self):
+        payload = json.dumps({"api_key": "abc"})
+        r = self.client.generic(
+            "GET", "/api/v1/checks/", payload, content_type="application/json")
+        self.assertEqual(r.status_code, 200)
