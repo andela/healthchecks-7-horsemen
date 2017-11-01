@@ -105,3 +105,22 @@ class CreateCheckTestCase(BaseTestCase):
     ### Test for the assignment of channels
     def test_it_assigns_channels(self):
         pass
+
+    # Test for the 'timeout is too small' and 'timeout is too large' errors
+    def test_too_small_time_outs(self):
+        self.post(
+            {
+                "api_key": "abc",
+                "name": 'Some name',
+                "timeout": 0
+            },
+            expected_error="timeout is too small")
+
+    def test_too_large_time_outs(self):
+        self.post(
+            {
+                "api_key": "abc",
+                "name": 'Some name',
+                "timeout": 10000000000000
+            },
+            expected_error="timeout is too large")
