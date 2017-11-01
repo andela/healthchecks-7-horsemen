@@ -7,7 +7,6 @@ from hc.test import BaseTestCase
 
 
 class ListChecksTestCase(BaseTestCase):
-
     def setUp(self):
         super(ListChecksTestCase, self).setUp()
 
@@ -34,6 +33,7 @@ class ListChecksTestCase(BaseTestCase):
     def test_it_works(self):
         r = self.get()
         ### Assert the response status code
+        self.assertEqual(r.status_code, 200)
 
         doc = r.json()
         self.assertTrue("checks" in doc)
