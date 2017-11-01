@@ -8,7 +8,6 @@ from mock import patch
 
 
 class SendAlertsTestCase(BaseTestCase):
-
     @patch("hc.api.management.commands.sendalerts.Command.handle_one")
     def test_it_handles_few(self, mock):
         yesterday = timezone.now() - timedelta(days=1)
@@ -39,4 +38,28 @@ class SendAlertsTestCase(BaseTestCase):
         # Expect no exceptions--
         Command().handle_one(check)
 
-    ### Assert when Command's handle many that when handle_many should return True
+    # Assert when Command's handle many that when handle_many should return True
+    @patch("hc.api.management.commands.sendalerts.Command.handle_one")
+    def test_that_handle_only_returns_true_if_it_handles_many(self, mock):
+        # Handle one
+        check = Check(user=self.alice, status="up")
+        # 1 day 30 minutes after ping the check is in grace period:
+        check.last_ping = timezone.now() - timedelta(days=1, minutes=30)
+        check.save()
+
+        # Expect no exceptions--
+        result = Command().handle_many()
+        self.assertFalse(result)
+
+        # Handle many
+        yesterday = timezone.now() - timedelta(days=1)
+        names = ["Check %d" % d for d in range(0, 10)]
+
+        for name in names:
+            check = Check(user=self.alice, name=name)
+            check.alert_after = yesterday
+            check.status = "up"
+            check.save()
+
+        result = Command().handle_many()
+        self.assertTrue(result)
