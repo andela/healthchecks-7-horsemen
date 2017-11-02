@@ -29,7 +29,8 @@ class SendAlertsTestCase(BaseTestCase):
         assert set(names) == set(handled_names)
         ### The above assert fails. Make it pass
 
-    def test_it_handles_grace_period(self):
+    @patch("hc.api.management.commands.sendalerts.Command.handle_one")
+    def test_it_handles_grace_period(self, mock):
         check = Check(user=self.alice, status="up")
         # 1 day 30 minutes after ping the check is in grace period:
         check.last_ping = timezone.now() - timedelta(days=1, minutes=30)
