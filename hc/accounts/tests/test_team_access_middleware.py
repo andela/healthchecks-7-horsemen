@@ -17,4 +17,3 @@ class TeamAccessMiddlewareTestCase(TestCase):
         ### Assert the new Profile objects count
         profiles = Profile.objects.all()
         self.assertEqual(len(profiles), 1)
-

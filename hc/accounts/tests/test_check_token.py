@@ -31,3 +31,4 @@ class CheckTokenTestCase(BaseTestCase):
         self.assertRedirects(r, '/accounts/login/')
 
     ### Any other tests?
+
