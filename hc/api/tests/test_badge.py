@@ -21,5 +21,6 @@ class BadgeTestCase(BaseTestCase):
         url = "/badge/%s/%s/foo.svg" % (self.alice.username, sig)
 
         r = self.client.get(url)
-        ### Assert that the svg is returned
-        self.assertContains(r, "svg")
+
+        # Assert that the svg is returned
+        self.assertIn("image/svg+xml", r._headers['content-type'])
