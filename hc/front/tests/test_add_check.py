@@ -19,7 +19,7 @@ class AddCheckTestCase(BaseTestCase):
         self.client.login(username="bob@example.org", password="password")
 
         url = "/checks/{}/timeout/".format(self.check.code)
-        payload = {"timeout": 5000, "grace": 60}
+        payload = {"timeout": 5000, "grace": 60, "nag":60}
 
         response = self.client.post(url, data=payload)
         self.assertRedirects(response, "/checks/")
