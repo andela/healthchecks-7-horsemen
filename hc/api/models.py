@@ -56,6 +56,7 @@ class Check(models.Model):
     last_ping = models.DateTimeField(null=True, blank=True)
     alert_after = models.DateTimeField(null=True, blank=True, editable=False)
     status = models.CharField(max_length=6, choices=STATUSES, default="new")
+    often = models.BooleanField(default=False)
 
     def name_then_code(self):
         if self.name:
@@ -89,7 +90,8 @@ class Check(models.Model):
             return self.status
 
         now = timezone.now()
-
+        if self.often:
+            return "often"
         if self.last_ping + self.timeout + self.grace > now:
             return "up"
 
