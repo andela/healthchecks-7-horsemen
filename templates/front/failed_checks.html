@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load compress staticfiles %}
+
+{% block title %}My Checks - healthchecks.io{% endblock %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-12">
+        <h1>
+        {% if request.team == request.user.profile %}
+            Failed Checks
+        {% else %}
+            {{ request.team.team_name }}
+        {% endif %}
+        </h1>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-sm-12">
+
+
+    {% if checks %}
+
+        {% load hc_extras humanize %}
+        <table id="checks-table" class="table hidden-xs">
+            <tr>
+                <th></th>
+                <th class="th-name">Name</th>
+                <th>Ping URL</th>
+                <th>Last Ping</th>
+                <th></th>
+            </tr>
+            {% for check in checks %}
+            <tr class="checks-row">
+                <td class="indicator-cell">
+             
+                    {% if check.get_status == "down" %}
+                        <span class="status icon-down"></span>
+                    {% endif %}
+                </td>
+                <td class="name-cell">
+                    <div data-name="{{ check.name }}"
+                            data-tags="{{ check.tags }}"
+                            data-url="{% url 'hc-update-name' check.code %}"
+                            class="my-checks-name {% if not check.name %}unnamed{% endif %}">
+                        <div>{{ check.name|default:"unnamed" }}</div>
+                        {% for tag in check.tags_list %}
+                        <span class="label label-tag">{{ tag }}</span>
+                        {% endfor %}
+                    </div>
+                </td>
+                <td class="url-cell">
+                    <span class="my-checks-url">
+                        <span class="base">{{ ping_endpoint }}</span>{{ check.code }}
+                    </span>
+                </td>
+                <td>
+                {% if check.last_ping %}
+                    <span
+                        data-toggle="tooltip"
+                        title="{{ check.last_ping|date:'N j, Y, P e' }}">
+                        {{ check.last_ping|naturaltime }}
+                    </span>
+                {% else %}
+                    Never
+                {% endif %}
+                </td>
+                <td>
+  
+                </td>
+            </tr>
+            {% endfor %}
+        
+        </table>
+        
+    {% else %}
+    <div class="alert alert-info">You don't have any failed checks yet.</div>
+    {% endif %}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{% compress js %}
+<script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/nouislider.min.js' %}"></script>
+<script src="{% static 'js/clipboard.min.js' %}"></script>
+<script src="{% static 'js/checks.js' %}"></script>
+
+</script>
+{% endcompress %}
+{% endblock %}
