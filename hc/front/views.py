@@ -59,6 +59,25 @@ def my_checks(request):
 
     return render(request, "front/my_checks.html", ctx)
 
+@login_required
+def failed_checks(request):
+    q = Check.objects.filter(user=request.team.user).order_by("created").all()
+    checks = list(q)
+
+    failed = []
+    for check in checks:
+        status = check.get_status()
+        if status == "down":
+            failed.append(check)
+
+    ctx = {
+        "page": "failed_checks",
+        "checks": failed,
+        "now": timezone.now(),
+        "ping_endpoint": settings.PING_ENDPOINT
+    }
+
+    return render(request, "front/failed_checks.html", ctx)
 
 def _welcome_check(request):
     check = None
