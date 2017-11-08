@@ -63,7 +63,8 @@ class Check(models.Model):
             return self.name
 
         return str(self.code)
-
+    def often_alert(self):
+        self.send_alert()
     def url(self):
         return settings.PING_ENDPOINT + str(self.code)
 

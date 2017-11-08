@@ -38,7 +38,8 @@ def ping(request, code):
 
     check.save()
     check.refresh_from_db()
-
+    if check.often:
+        check.often_alert()
     ping = Ping(owner=check)
     headers = request.META
     ping.n = check.n_pings

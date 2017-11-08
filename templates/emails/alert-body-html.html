@@ -3,10 +3,17 @@
 
 <h1>Hello,</h1>
 <p>
-    This is a notification sent by <a href="https://healthchecks.io">healthchecks.io</a>.
+    This is a notification sent by <a href="https://healthchecks-7-horsemen.herokuapp.com">healthchecks.io</a>.
     <br />
+    {% if check.often %}
+    The check <strong>{{ check.name_then_code }}</strong>
+    has gone <strong>UP</strong>
+    but runs too <strong>OFTEN</strong>.
+
+    {% else %}
     The check <strong>{{ check.name_then_code }}</strong>
     has gone <strong>{{ check.status|upper }}</strong>.
+    {% endif %}
 </p>
 
 <p>Here is a summary of all your checks:</p>
