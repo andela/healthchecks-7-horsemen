@@ -65,9 +65,15 @@
                 <span class="checks-subline">
                 {{ check.grace|hc_duration }}
                 </span><br />
+                {%if check.nag_status_on%}
                 <span class="checks-subline">
                     {{ check.nag_interval|hc_duration }}
                 </span>
+                {%else%}
+                <span class="checks-subline">
+                    Nag is Off
+                </span>
+                {%endif%}
             </span>
         </td>
         <td>
