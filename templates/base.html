@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
+    <link rel="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" href="/css/master.css">
     {% load compress staticfiles %}
     <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}">
 
@@ -75,6 +76,10 @@
                 {% if request.user.is_authenticated %}
                     <li {% if page == 'checks' %} class="active" {% endif %}>
                         <a href="{% url 'hc-checks' %}">Checks</a>
+                    </li>
+
+                    <li {% if page == 'failed_checks' %} class="active" {% endif %}>
+                        <a href="{% url 'failed_checks' %}">Failed Checks</a>
                     </li>
 
                     <li {% if page == 'channels' %} class="active" {% endif %}>

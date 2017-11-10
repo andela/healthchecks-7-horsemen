@@ -1,4 +1,5 @@
 from django.core import mail
+from django.contrib.messages import get_messages
 
 from hc.test import BaseTestCase
 from hc.accounts.models import Member
@@ -18,16 +19,40 @@ class ProfileTestCase(BaseTestCase):
         self.alice.profile.refresh_from_db()
         token = self.alice.profile.token
         ### Assert that the token is set
-
+        self.assertNotEqual(len(token), 0)
         ### Assert that the email was sent and check email content
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn("Here's a link to set a password", mail.outbox[0].body)
 
     def test_it_sends_report(self):
         check = Check(name="Test Check", user=self.alice)
         check.save()
-
         self.alice.profile.send_report()
 
         ###Assert that the email was sent and check email content
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn("Test Check", mail.outbox[0].body)
+
+    def test_it_sends_weekly_report(self):
+        check = Check(name="Test Check", user=self.alice)
+        check.save()
+        self.alice.profile.report_time = 7
+        self.alice.profile.reports_allowed = True
+        self.alice.profile.send_report()
+
+        ###Assert that weekly is in email body
+        self.assertIn("Weekly", mail.outbox[0].body)
+
+    def test_it_sends_daily_report(self):
+        check = Check(name="Test Check", user=self.alice)
+        check.save()
+        self.alice.profile.report_time = 1
+        self.alice.profile.reports_allowed = True
+        self.alice.profile.send_report()
+
+        ###Assert that daily is in email body
+        self.assertIn("Daily", mail.outbox[0].body)
+
 
     def test_it_adds_team_member(self):
         self.client.login(username="alice@example.org", password="password")
@@ -41,10 +66,12 @@ class ProfileTestCase(BaseTestCase):
             member_emails.add(member.user.email)
 
         ### Assert the existence of the member emails
-
         self.assertTrue("frank@example.org" in member_emails)
 
         ###Assert that the email was sent and check email content
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn('invites you to their healthchecks.io',
+                      mail.outbox[0].body)
 
     def test_add_team_member_checks_team_access_allowed_flag(self):
         self.client.login(username="charlie@example.org", password="password")
@@ -108,3 +135,25 @@ class ProfileTestCase(BaseTestCase):
         self.assertNotContains(r, "bobs-tag.svg")
 
     ### Test it creates and revokes API key
+    def test_it_creates_api_key(self):
+        self.client.login(username="alice@example.org", password="password")
+        form = {'create_api_key': "1"}
+        response = self.client.post("/accounts/profile/", form)
+
+        self.assertEqual(response.status_code, 200)
+        self.alice.profile.refresh_from_db()
+        self.assertGreater(len(self.alice.profile.api_key), 0)
+
+    def test_it_revokes_api_key(self):
+        self.client.login(username="alice@example.org", password="password")
+        form = {'revoke_api_key': "1"}
+        response = self.client.post("/accounts/profile/", form)
+
+        self.assertEqual(response.status_code, 200)
+        self.alice.profile.refresh_from_db()
+        self.assertFalse(self.alice.profile.api_key)
+
+
+
+
+       

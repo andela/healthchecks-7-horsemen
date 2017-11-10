@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 import os
 import warnings
+import dj_database_url
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -87,6 +88,13 @@ DATABASES = {
         'NAME':   './hc.sqlite',
     }
 }
+# Setting so as to use postgres on heroku
+# You have to setup "ONHEROKU" = "TRUE" on heroku app environment variables.
+if os.environ.get("ONHEROKU") == "TRUE":
+    DB_FROM_ENV = dj_database_url.config()
+    DATABASES['default'].update(DB_FROM_ENV)
+    STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+    SECURE_SSL_REDIRECT = True
 
 # You can switch database engine to postgres or mysql using environment
 # variable 'DB'. Travis CI does this.
@@ -133,7 +141,15 @@ STATICFILES_FINDERS = (
 )
 COMPRESS_OFFLINE = True
 
+# Email configuration with django default backend
 EMAIL_BACKEND = "djmail.backends.default.EmailBackend"
+DJMAIL_REAL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = os.environ.get("EMAIL_HOST")
+EMAIL_PORT = os.environ.get("EMAIL_PORT")
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 
 # Slack integration -- override these in local_settings
 SLACK_CLIENT_ID = None

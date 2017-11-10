@@ -21,6 +21,16 @@ def ping(request, code):
     except Check.DoesNotExist:
         return HttpResponseBadRequest()
 
+    # num_pings= Ping.objects.filter(owner=check).filter(created__range=(check.prev_ping,deadline))
+    # import pdb; pdb.set_trace()
+    # if len(num_pings) > 1:
+    if check.last_ping:
+        deadline = check.last_ping + check.timeout - check.grace
+        if timezone.now() > check.last_ping and timezone.now() < deadline:
+            check.often = True
+        else:
+            check.often = False
+
     check.n_pings = F("n_pings") + 1
     check.last_ping = timezone.now()
     if check.status in ("new", "paused"):
@@ -28,7 +38,8 @@ def ping(request, code):
 
     check.save()
     check.refresh_from_db()
-
+    if check.often:
+        check.often_alert()
     ping = Ping(owner=check)
     headers = request.META
     ping.n = check.n_pings
@@ -62,6 +73,10 @@ def checks(request):
             check.timeout = td(seconds=request.json["timeout"])
         if "grace" in request.json:
             check.grace = td(seconds=request.json["grace"])
+        if "nag" in request.json:
+            check.nag_interval = td(seconds=request.json["nag"])
+        if "nag_status_on" in request.json:
+            check.nag_status_on = request.json["nag_status_on"]
 
         check.save()
 

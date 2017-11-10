@@ -116,6 +116,7 @@
             {% csrf_token %}
             <input type="hidden" name="timeout" id="update-timeout-timeout" />
             <input type="hidden" name="grace" id="update-timeout-grace" />
+            <input type="hidden" name="nag" id="update-timeout-nag" />
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="update-timeout-info text-center">
@@ -146,8 +147,30 @@
                             1 day
                         </span>
                     </div>
-
                     <div id="grace-slider"></div>
+
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="nag_status_on" class="onoffswitch-checkbox" id="update-timeout-nag-status"/>
+                        <label class="onoffswitch-label" for="update-timeout-nag-status">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+
+                    <div class="update-timeout-info text-center hide-me">
+                        <span
+                            class="update-timeout-label"
+                            data-toggle="tooltip"
+                            title="When check is late, how much time to wait until alert is sent">
+                            Nag Interval
+                        </span>
+                        <span
+                            id="nag-slider-value"
+                            class="update-timeout-value">
+                            1 day
+                        </span>
+                    </div>
+                    <div id="nag-slider" class="hide-me"></div>
 
                     <div class="update-timeout-terms">
                         <p>
@@ -158,6 +181,10 @@
                             <span>Grace Time</span>
                             When a check is late, how much time to wait until alert is sent.
                         </p>
+                        <p>
+                                <span>Nag Time</span>
+                            When a check doesn't occur, in what intervals should the user be nagged until it occurs.
+                            </p>
                     </div>
 
                 </div>
@@ -287,5 +314,7 @@
 <script src="{% static 'js/nouislider.min.js' %}"></script>
 <script src="{% static 'js/clipboard.min.js' %}"></script>
 <script src="{% static 'js/checks.js' %}"></script>
+
+</script>
 {% endcompress %}
 {% endblock %}

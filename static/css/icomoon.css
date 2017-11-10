@@ -23,7 +23,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+.icon-forward3:before {
+  content: "\0026A1";
+ }
 .icon-cancel:before {
   content: "\e5c9";
 }
